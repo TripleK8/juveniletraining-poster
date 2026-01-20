@@ -22,7 +22,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 10px;
+            padding: 20px;
         }
 
         /* A4 Landscape Dimensions */
@@ -31,7 +31,7 @@
             height: 210mm;
             background: white;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            padding: 8mm; /* ปรับลดจาก 10mm เพื่อป้องกันการตกขอบ */
+            padding: 8mm 12mm; /* ปรับ Padding ให้สมดุลขึ้น */
             position: relative;
             overflow: hidden;
             display: flex;
@@ -42,14 +42,15 @@
         .program-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px; /* ลดช่องว่างระหว่างคอลัมน์ */
+            gap: 12px;
             flex-grow: 1;
+            height: 100%; /* ให้เต็มพื้นที่ */
         }
 
         .phase-card {
-            border: 1.5px solid #000;
-            border-radius: 6px;
-            padding: 8px;
+            border: 2px solid #1f2937; /* เข้มขึ้นเล็กน้อย */
+            border-radius: 8px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             background: #fff;
@@ -58,58 +59,76 @@
 
         .phase-header {
             text-align: center;
-            border-bottom: 2px solid #000;
-            margin-bottom: 6px;
-            padding-bottom: 4px;
+            border-bottom: 2px solid #1f2937;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
         }
 
         .week-table {
             width: 100%;
-            font-size: 0.65rem; /* ปรับขนาดเล็กลงเล็กน้อย */
+            font-size: 0.7rem;
             border-collapse: collapse;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .week-table th, .week-table td {
-            border: 1px solid #ccc;
-            padding: 2px;
+            border: 1px solid #d1d5db;
+            padding: 3px;
             text-align: center;
         }
         .week-table th {
-            background-color: #f8f8f8;
+            background-color: #f3f4f6;
             font-weight: 700;
+            color: #111;
         }
 
         .muscle-section {
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         
         .muscle-header {
             font-size: 0.7rem;
-            font-weight: 800;
-            background: #000;
+            font-weight: 700;
+            background: #1f2937;
             color: #fff;
-            padding: 1px 5px;
-            margin-bottom: 3px;
+            padding: 2px 8px;
+            margin-bottom: 4px;
             display: inline-block;
-            border-radius: 2px;
+            border-radius: 4px;
+            text-transform: uppercase;
         }
 
         .exercise-row {
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 4px;
-            border-bottom: 1px dotted #eee;
-            padding-bottom: 3px;
+            gap: 8px;
+            margin-bottom: 6px;
+            border-bottom: 1px dashed #e5e7eb;
+            padding-bottom: 4px;
+        }
+        
+        .exercise-row:last-child {
+            border-bottom: none;
         }
 
         .exercise-img {
-            width: 38px; /* ปรับขนาดรูปให้กะทัดรัดขึ้น */
-            height: 38px;
-            background-color: #f0f0f0;
+            width: 40px;
+            height: 40px;
+            background-color: #f9fafb;
             object-fit: cover;
-            border: 1px solid #ddd;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
             flex-shrink: 0;
+        }
+
+        /* เพิ่ม style สำหรับลิงก์รูปภาพ */
+        a.img-link {
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        a.img-link:hover {
+            opacity: 0.8;
+            border-color: #000;
         }
 
         .exercise-details h4 {
@@ -117,15 +136,10 @@
             font-weight: 700;
             margin: 0;
             line-height: 1.2;
-            color: #000;
+            color: #111;
         }
         
-        .exercise-details p {
-            font-size: 0.65rem;
-            margin: 0;
-            color: #444;
-            line-height: 1.1;
-        }
+        /* Removed p tag style for descriptions as requested */
 
         /* Print Settings */
         @media print {
@@ -133,15 +147,19 @@
                 background: none; 
                 padding: 0; 
                 margin: 0;
+                display: block;
             }
             .page { 
                 box-shadow: none; 
-                margin: 0; 
+                margin: 0 auto; 
                 width: 297mm;
                 height: 210mm;
                 border: none;
+                page-break-after: always;
             }
             .no-print { display: none !important; }
+            /* Force background graphics */
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
 </head>
@@ -149,15 +167,22 @@
 
     <!-- Controls -->
     <div class="fixed top-4 right-4 flex gap-2 no-print z-50">
-        <button onclick="window.print()" class="bg-slate-900 text-white px-5 py-2 rounded-full shadow-xl hover:bg-black transition-all font-medium flex items-center gap-2">
-            <i data-lucide="printer" class="w-4 h-4"></i> พิมพ์ / บันทึก PDF (A4 แนวนอน)
+        <button onclick="window.print()" class="bg-gray-900 hover:bg-black text-white px-6 py-2.5 rounded-full shadow-lg transition-all font-medium flex items-center gap-2 cursor-pointer border border-gray-700">
+            <i data-lucide="printer" class="w-4 h-4"></i> พิมพ์ / บันทึก PDF
         </button>
     </div>
 
     <div class="page">
         <!-- Header -->
-        <header class="flex justify-between items-center mb-3 border-b-2 border-black pb-2">
-            <h1 class="text-2xl font-800 uppercase tracking-tight">โปรแกรม 3 เดือน</h1>
+        <header class="flex justify-between items-end mb-4 border-b-4 border-gray-900 pb-2">
+            <div>
+                <h1 class="text-3xl font-800 uppercase tracking-tight text-gray-900 leading-none">โปรแกรม 3 เดือน</h1>
+            </div>
+            <div class="text-right">
+                <div class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-600 font-bold border border-gray-200">
+                    A4 LANDSCAPE
+                </div>
+            </div>
         </header>
 
         <div class="program-grid">
@@ -165,8 +190,7 @@
             <!-- เดือนที่ 1 -->
             <div class="phase-card">
                 <div class="phase-header">
-                    <h2 class="text-base font-800">เดือนที่ 1</h2>
-                    <div class="text-[10px]">เน้นความถูกต้องของท่าและความทนทาน</div>
+                    <h2 class="text-lg font-800">เดือนที่ 1</h2>
                 </div>
 
                 <table class="week-table">
@@ -185,51 +209,60 @@
                         <tr><td>4</td><td>3</td><td>15+</td><td>60</td></tr>
                     </tbody>
                 </table>
-                <div class="text-[9px] text-center mb-2 font-bold bg-gray-100 py-1">จังหวะ (Tempo): 2-1-2 (ลง 2 วิ - หยุด 1 - ขึ้น 2)</div>
-
-                <div class="muscle-section">
-                    <div class="muscle-header">ส่วนบน</div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Push+Up" class="exercise-img" alt="Push Up">
-                        <div class="exercise-details">
-                            <h4>ท่าดันพื้น (Push-ups)</h4>
-                            <p>ทำตามตารางฝึก</p>
-                        </div>
-                    </div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Pike" class="exercise-img" alt="Pike Push Up">
-                        <div class="exercise-details">
-                            <h4>ท่าดันพื้นยกสะโพก (Pike Push-up)</h4>
-                            <p>ทำตามตารางฝึก</p>
-                        </div>
-                    </div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Back" class="exercise-img" alt="YWT">
-                        <div class="exercise-details">
-                            <h4>ท่านอนคว่ำยกแขน (Y-W-T Raises)</h4>
-                            <p>ทำตามตารางฝึก (เน้นหลัง)</p>
-                        </div>
-                    </div>
+                <div class="text-[10px] text-center mb-3 font-bold bg-gray-100 py-1.5 rounded border border-gray-200 text-gray-700">
+                    จังหวะ (Tempo): 2-1-2 <span class="font-normal text-gray-500">(ลง 2 - หยุด 1 - ขึ้น 2)</span>
                 </div>
 
-                <div class="muscle-section">
-                    <div class="muscle-header">แกนกลาง</div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Plank" class="exercise-img" alt="Plank">
-                        <div class="exercise-details">
-                            <h4>ท่าแพลงก์ (Plank)</h4>
-                            <p>3 ชุด x 30-60 วินาที</p>
+                <div class="flex-grow overflow-hidden">
+                    <div class="muscle-section">
+                        <div class="muscle-header">UPPER BODY</div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Push+Up" class="exercise-img" alt="Push Up">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ท่าดันพื้น (Push-ups)</h4>
+                            </div>
+                        </div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Pike" class="exercise-img" alt="Pike Push Up">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ท่าดันพื้นยกสะโพก (Pike Push-up)</h4>
+                            </div>
+                        </div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Back" class="exercise-img" alt="YWT">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ท่านอนคว่ำยกแขน (Y-W-T)</h4>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="muscle-section">
-                    <div class="muscle-header">ส่วนล่าง</div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Squat" class="exercise-img" alt="Squat">
-                        <div class="exercise-details">
-                            <h4>ท่าลุกนั่ง (Squat)</h4>
-                            <p>ทำตามตารางฝึก</p>
+                    <div class="muscle-section">
+                        <div class="muscle-header">CORE</div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Plank" class="exercise-img" alt="Plank">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ท่าแพลงก์ (Plank)</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="muscle-section">
+                        <div class="muscle-header">LOWER BODY</div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Squat" class="exercise-img" alt="Squat">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ท่าลุกนั่ง (Squat)</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -238,8 +271,7 @@
             <!-- เดือนที่ 2 -->
             <div class="phase-card">
                 <div class="phase-header">
-                    <h2 class="text-base font-800">เดือนที่ 2</h2>
-                    <div class="text-[10px]">เน้นปริมาณการฝึก (Volume)</div>
+                    <h2 class="text-lg font-800">เดือนที่ 2</h2>
                 </div>
 
                 <table class="week-table">
@@ -258,51 +290,60 @@
                         <tr><td>8</td><td>4</td><td>15</td><td>90</td></tr>
                     </tbody>
                 </table>
-                <div class="text-[9px] text-center mb-2 font-bold bg-gray-100 py-1">จังหวะ (Tempo): 3-1-1 (ลง 3 วิ - หยุด 1 - ขึ้น 1)</div>
-
-                <div class="muscle-section">
-                    <div class="muscle-header">ส่วนบน</div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Diamond" class="exercise-img" alt="Diamond PU">
-                        <div class="exercise-details">
-                            <h4>ท่าดันพื้นมือชิด (Diamond Push-up)</h4>
-                            <p>ทำตามตารางฝึก</p>
-                        </div>
-                    </div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Decline" class="exercise-img" alt="Decline PU">
-                        <div class="exercise-details">
-                            <h4>ท่าดันพื้นวางเท้าสูง (Decline Push-up)</h4>
-                            <p>ทำตามตารางฝึก</p>
-                        </div>
-                    </div>
-                     <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Rows" class="exercise-img" alt="Door Rows">
-                        <div class="exercise-details">
-                            <h4>ท่าดึงข้อ / ดึงขอบประตู (Rows)</h4>
-                            <p>ทำจนหมดแรง (Failure)</p>
-                        </div>
-                    </div>
+                <div class="text-[10px] text-center mb-3 font-bold bg-gray-100 py-1.5 rounded border border-gray-200 text-gray-700">
+                    จังหวะ (Tempo): 3-1-1 <span class="font-normal text-gray-500">(ลง 3 - หยุด 1 - ขึ้น 1)</span>
                 </div>
 
-                <div class="muscle-section">
-                    <div class="muscle-header">แกนกลาง</div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Leg+R" class="exercise-img" alt="Leg Raise">
-                        <div class="exercise-details">
-                            <h4>ท่านอนยกขา (Leg Raises)</h4>
-                            <p>3 ชุด x 12-15 ครั้ง</p>
+                <div class="flex-grow overflow-hidden">
+                    <div class="muscle-section">
+                        <div class="muscle-header">UPPER BODY</div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Diamond" class="exercise-img" alt="Diamond PU">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ดันพื้นมือชิด (Diamond)</h4>
+                            </div>
+                        </div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Decline" class="exercise-img" alt="Decline PU">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ดันพื้นวางเท้าสูง (Decline)</h4>
+                            </div>
+                        </div>
+                         <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Rows" class="exercise-img" alt="Door Rows">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ดึงข้อ / ดึงขอบประตู (Rows)</h4>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="muscle-section">
-                    <div class="muscle-header">ส่วนล่าง</div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Split" class="exercise-img" alt="Split Squat">
-                        <div class="exercise-details">
-                            <h4>ท่าย่อเข่าขาเดียว (Split Squat)</h4>
-                            <p>ทำตามตารางฝึก (ต่อข้าง)</p>
+                    <div class="muscle-section">
+                        <div class="muscle-header">CORE</div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Leg+R" class="exercise-img" alt="Leg Raise">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>นอนยกขา (Leg Raises)</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="muscle-section">
+                        <div class="muscle-header">LOWER BODY</div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Split" class="exercise-img" alt="Split Squat">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ย่อเข่าขาเดียว (Split Squat)</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -311,8 +352,7 @@
             <!-- เดือนที่ 3 -->
             <div class="phase-card">
                 <div class="phase-header">
-                    <h2 class="text-base font-800">เดือนที่ 3</h2>
-                    <div class="text-[10px]">เน้นความเร็วและการระเบิดแรง</div>
+                    <h2 class="text-lg font-800">เดือนที่ 3</h2>
                 </div>
 
                 <table class="week-table">
@@ -331,51 +371,60 @@
                         <tr><td>12</td><td>5</td><td>Max</td><td>60</td></tr>
                     </tbody>
                 </table>
-                <div class="text-[9px] text-center mb-2 font-bold bg-gray-100 py-1">จังหวะ (Tempo): เน้นระเบิดแรง (Explosive)</div>
-
-                <div class="muscle-section">
-                    <div class="muscle-header">ส่วนบน</div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Explosive" class="exercise-img" alt="Clap PU">
-                        <div class="exercise-details">
-                            <h4>ท่าดันพื้นตบมือ (Explosive Push-up)</h4>
-                            <p>ทำตามตารางฝึก</p>
-                        </div>
-                    </div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Dips" class="exercise-img" alt="Dips">
-                        <div class="exercise-details">
-                            <h4>ท่าดันหลังแขน (Chair Dips)</h4>
-                            <p>ทำตามตารางฝึก</p>
-                        </div>
-                    </div>
+                <div class="text-[10px] text-center mb-3 font-bold bg-gray-100 py-1.5 rounded border border-gray-200 text-gray-700">
+                    จังหวะ (Tempo): Explosive <span class="font-normal text-gray-500">(เร็วและแรง)</span>
                 </div>
 
-                <div class="muscle-section">
-                    <div class="muscle-header">แกนกลาง</div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=V-Up" class="exercise-img" alt="V-Up">
-                        <div class="exercise-details">
-                            <h4>ท่าพับตัว (V-Ups)</h4>
-                            <p>3 ชุด x 10-12 ครั้ง</p>
+                <div class="flex-grow overflow-hidden">
+                    <div class="muscle-section">
+                        <div class="muscle-header">UPPER BODY</div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Explosive" class="exercise-img" alt="Clap PU">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ดันพื้นตบมือ (Explosive Push-up)</h4>
+                            </div>
+                        </div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Dips" class="exercise-img" alt="Dips">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ดันหลังแขน (Chair Dips)</h4>
+                            </div>
                         </div>
                     </div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Twist" class="exercise-img" alt="Twist">
-                        <div class="exercise-details">
-                            <h4>ท่าบิดตัว (Russian Twist)</h4>
-                            <p>3 ชุด x 20 ครั้ง (รวม)</p>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="muscle-section">
-                    <div class="muscle-header">ส่วนล่าง</div>
-                    <div class="exercise-row">
-                        <img src="https://placehold.co/100x100/f0f0f0/333333?text=Jump" class="exercise-img" alt="Jump Sq">
-                        <div class="exercise-details">
-                            <h4>ท่าลุกนั่งกระโดด (Jump Squats)</h4>
-                            <p>ทำตามตารางฝึก</p>
+                    <div class="muscle-section">
+                        <div class="muscle-header">CORE</div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=V-Up" class="exercise-img" alt="V-Up">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>พับตัว (V-Ups)</h4>
+                            </div>
+                        </div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Twist" class="exercise-img" alt="Twist">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>บิดตัว (Russian Twist)</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="muscle-section">
+                        <div class="muscle-header">LOWER BODY</div>
+                        <div class="exercise-row">
+                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                                <img src="https://placehold.co/100x100/f3f4f6/333333?text=Jump" class="exercise-img" alt="Jump Sq">
+                            </a>
+                            <div class="exercise-details">
+                                <h4>ลุกนั่งกระโดด (Jump Squats)</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -384,9 +433,9 @@
         </div>
         
         <!-- Footer -->
-        <footer class="mt-2 pt-2 border-t border-gray-200 flex justify-between items-center text-[9px] text-gray-400 font-bold uppercase">
+        <footer class="mt-4 pt-2 border-t border-gray-300 flex justify-between items-center text-[9px] text-gray-400 font-bold uppercase tracking-wider">
             <span>Progressive Overload Tracking Sheet</span>
-            <span>A4 Landscape Layout / Sarabun Font</span>
+            <span>A4 Landscape Layout / Font: Sarabun</span>
         </footer>
     </div>
 
