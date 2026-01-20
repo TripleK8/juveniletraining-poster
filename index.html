@@ -65,7 +65,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Changed to start to accommodate input */
+            justify-content: center;
             text-align: center;
             background: #f9fafb;
         }
@@ -74,14 +74,21 @@
             width: 100%;
             aspect-ratio: 16/9;
             position: relative;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             border-radius: 4px;
             overflow: hidden;
-            border: 2px dashed #d1d5db; /* Dashed border to look like a frame waiting for content */
+            border: 2px dashed #9ca3af; /* เส้นประแสดงว่าเป็นกรอบ */
             background: white;
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .guide-img-container:hover {
+            border-color: #000;
+            background-color: #f3f4f6;
         }
 
         .guide-img {
@@ -89,24 +96,6 @@
             height: 100%;
             object-fit: contain;
             padding: 2px;
-        }
-
-        /* URL Input Styles */
-        .url-input {
-            width: 100%;
-            font-size: 0.65rem;
-            padding: 2px 4px;
-            margin-bottom: 4px;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            background-color: #fff;
-            color: #334155;
-        }
-        
-        .url-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 1px #3b82f6;
         }
 
         .phase-card {
@@ -172,43 +161,6 @@
             border-bottom: none;
         }
 
-        /* Image Upload Styles (Page 1) */
-        .img-container {
-            position: relative;
-            width: 40px;
-            height: 40px;
-            flex-shrink: 0;
-            cursor: pointer;
-            border-radius: 4px;
-            overflow: hidden;
-            background: #fff;
-            border: 1px solid #e5e7eb;
-        }
-
-        .exercise-img {
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            object-fit: contain;
-            padding: 2px;
-        }
-
-        .img-overlay {
-            position: absolute;
-            inset: 0;
-            background-color: rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.2s;
-            border-radius: 4px;
-        }
-
-        .img-container:hover .img-overlay {
-            opacity: 1;
-        }
-
         .exercise-details h4 {
             font-size: 0.75rem;
             font-weight: 700;
@@ -237,17 +189,12 @@
                 page-break-after: auto;
             }
             .no-print { display: none !important; }
-            .url-input { display: none !important; } /* ซ่อนช่องกรอกลิงก์ตอนพิมพ์ */
-            .guide-img-container { border-style: solid; border-color: #000; border-width: 1px; } /* เปลี่ยนเส้นประเป็นเส้นทึบตอนพิมพ์ */
-            .img-overlay { display: none !important; }
+            .guide-img-container { border-style: solid; border-width: 1px; border-color: #d1d5db; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
 </head>
 <body>
-
-    <!-- Hidden File Input (For Page 1 only) -->
-    <input type="file" id="fileInput" accept="image/*" style="display: none;">
 
     <!-- Controls -->
     <div class="fixed top-4 right-4 flex gap-2 no-print z-50">
@@ -256,7 +203,7 @@
         </button>
     </div>
 
-    <!-- PAGE 1: PROGRAM TABLE (Still uses Upload for small icons) -->
+    <!-- PAGE 1: PROGRAM TABLE (Clean, Text Only) -->
     <div class="page">
         <!-- Header -->
         <header class="flex justify-between items-end mb-4 border-b-4 border-gray-900 pb-2">
@@ -295,29 +242,24 @@
                     <div class="muscle-section">
                         <div class="muscle-header">UPPER BODY</div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Push-up-2.png/640px-Push-up-2.png" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ท่าดันพื้น (Push-ups)</h4></div>
                         </div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Pike_Push_Ups.gif" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ท่าดันพื้นยกสะโพก (Pike Push-up)</h4></div>
                         </div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://placehold.co/100x100/f3f4f6/333333?text=Back" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ท่านอนคว่ำยกแขน (Y-W-T)</h4></div>
                         </div>
                     </div>
                     <div class="muscle-section">
                         <div class="muscle-header">CORE</div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Plank.jpg/640px-Plank.jpg" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ท่าแพลงก์ (Plank)</h4></div>
                         </div>
                     </div>
                     <div class="muscle-section">
                         <div class="muscle-header">LOWER BODY</div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Squats.svg/640px-Squats.svg.png" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ท่าลุกนั่ง (Squat)</h4></div>
                         </div>
                     </div>
@@ -347,29 +289,24 @@
                     <div class="muscle-section">
                         <div class="muscle-header">UPPER BODY</div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://placehold.co/100x100/f3f4f6/333333?text=Diamond" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ดันพื้นมือชิด (Diamond)</h4></div>
                         </div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://placehold.co/100x100/f3f4f6/333333?text=Decline" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ดันพื้นวางเท้าสูง (Decline)</h4></div>
                         </div>
                          <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://placehold.co/100x100/f3f4f6/333333?text=Rows" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ดึงข้อ / ดึงขอบประตู (Rows)</h4></div>
                         </div>
                     </div>
                     <div class="muscle-section">
                         <div class="muscle-header">CORE</div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://placehold.co/100x100/f3f4f6/333333?text=Leg+R" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>นอนยกขา (Leg Raises)</h4></div>
                         </div>
                     </div>
                     <div class="muscle-section">
                         <div class="muscle-header">LOWER BODY</div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://placehold.co/100x100/f3f4f6/333333?text=Split" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ย่อเข่าขาเดียว (Split Squat)</h4></div>
                         </div>
                     </div>
@@ -399,29 +336,24 @@
                     <div class="muscle-section">
                         <div class="muscle-header">UPPER BODY</div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://placehold.co/100x100/f3f4f6/333333?text=Explosive" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ดันพื้นตบมือ (Explosive Push-up)</h4></div>
                         </div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://placehold.co/100x100/f3f4f6/333333?text=Dips" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ดันหลังแขน (Chair Dips)</h4></div>
                         </div>
                     </div>
                     <div class="muscle-section">
                         <div class="muscle-header">CORE</div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://placehold.co/100x100/f3f4f6/333333?text=V-Up" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>พับตัว (V-Ups)</h4></div>
                         </div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://placehold.co/100x100/f3f4f6/333333?text=Twist" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>บิดตัว (Russian Twist)</h4></div>
                         </div>
                     </div>
                     <div class="muscle-section">
                         <div class="muscle-header">LOWER BODY</div>
                         <div class="exercise-row">
-                            <div class="img-container" onclick="triggerUpload(this)"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Squats.svg/640px-Squats.svg.png" class="exercise-img"><div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div></div>
                             <div class="exercise-details"><h4>ลุกนั่งกระโดด (Jump Squats)</h4></div>
                         </div>
                     </div>
@@ -435,7 +367,7 @@
         </footer>
     </div>
 
-    <!-- PAGE 2: EXERCISE VISUAL GUIDE (URL Paste Mode) -->
+    <!-- PAGE 2: EXERCISE VISUAL GUIDE (Click-to-Paste Mode) -->
     <div class="page">
         <!-- Header -->
         <header class="flex justify-between items-end mb-4 border-b-4 border-gray-900 pb-2">
@@ -452,112 +384,97 @@
         <div class="guide-grid">
             <!-- Items 1-5 -->
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Push-up-2.png/640px-Push-up-2.png" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ท่าดันพื้น (Standard Push-up)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Pike_Push_Ups.gif" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ท่าดันพื้นยกสะโพก (Pike Push-up)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://placehold.co/300x169/f3f4f6/333333?text=Y-W-T" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ท่านอนคว่ำยกแขน (Y-W-T)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Plank.jpg/640px-Plank.jpg" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ท่าแพลงก์ (Plank)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Squats.svg/640px-Squats.svg.png" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ท่าลุกนั่ง (Squat)</h4>
             </div>
 
             <!-- Items 6-10 -->
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://placehold.co/300x169/f3f4f6/333333?text=Diamond+Push-up" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ดันพื้นมือชิด (Diamond Push-up)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://placehold.co/300x169/f3f4f6/333333?text=Decline+Push-up" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ดันพื้นวางเท้าสูง (Decline Push-up)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://placehold.co/300x169/f3f4f6/333333?text=Rows" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ดึงข้อ / ดึงขอบประตู (Rows)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://placehold.co/300x169/f3f4f6/333333?text=Leg+Raises" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">นอนยกขา (Leg Raises)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://placehold.co/300x169/f3f4f6/333333?text=Split+Squat" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ย่อเข่าขาเดียว (Split Squat)</h4>
             </div>
 
             <!-- Items 11-15 -->
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://placehold.co/300x169/f3f4f6/333333?text=Explosive+Push-up" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ดันพื้นตบมือ (Explosive Push-up)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://placehold.co/300x169/f3f4f6/333333?text=Chair+Dips" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ดันหลังแขน (Chair Dips)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://placehold.co/300x169/f3f4f6/333333?text=V-Ups" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">พับตัว (V-Ups)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://placehold.co/300x169/f3f4f6/333333?text=Russian+Twist" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">บิดตัว (Russian Twist)</h4>
             </div>
             <div class="guide-item">
-                <div class="guide-img-container">
+                <div class="guide-img-container" onclick="promptForUrl(this)" title="คลิกเพื่อเปลี่ยนรูป (วางลิงก์)">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Squats.svg/640px-Squats.svg.png" class="guide-img">
                 </div>
-                <input type="text" class="url-input" placeholder="วางลิงก์รูปภาพที่นี่..." onchange="updateImageFromUrl(this)">
                 <h4 class="font-bold text-sm">ลุกนั่งกระโดด (Jump Squats)</h4>
             </div>
         </div>
@@ -571,41 +488,13 @@
     <script>
         lucide.createIcons();
 
-        // Page 1: Image Upload Logic (Small icons)
-        let currentImgElement = null;
-        const fileInput = document.getElementById('fileInput');
-
-        function triggerUpload(container) {
-            currentImgElement = container.querySelector('img');
-            fileInput.click();
-        }
-
-        fileInput.addEventListener('change', function(e) {
-            if (e.target.files && e.target.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    if (currentImgElement) {
-                        currentImgElement.src = e.target.result;
-                    }
-                }
-                reader.readAsDataURL(e.target.files[0]);
-            }
-            fileInput.value = '';
-        });
-
-        // Page 2: URL Paste Logic (Guide)
-        function updateImageFromUrl(inputElement) {
-            const url = inputElement.value.trim();
-            // Find the image element in the previous sibling container
-            const imgContainer = inputElement.previousElementSibling;
-            if (imgContainer && imgContainer.classList.contains('guide-img-container')) {
-                const img = imgContainer.querySelector('.guide-img');
-                if (url) {
-                    img.src = url;
-                } else {
-                    // Optional: Reset to placeholder if empty
-                    // img.src = "https://placehold.co/300x169/f3f4f6/333333?text=No+Image";
-                }
+        // Prompt Logic for Page 2
+        function promptForUrl(container) {
+            const currentImg = container.querySelector('img');
+            const newUrl = prompt("กรุณาวางลิงก์รูปภาพ (URL) ที่ต้องการ:", currentImg.src);
+            
+            if (newUrl && newUrl.trim() !== "") {
+                currentImg.src = newUrl;
             }
         }
     </script>
