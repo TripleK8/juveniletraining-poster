@@ -31,7 +31,7 @@
             height: 210mm;
             background: white;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            padding: 8mm 12mm; /* ปรับ Padding ให้สมดุลขึ้น */
+            padding: 8mm 12mm;
             position: relative;
             overflow: hidden;
             display: flex;
@@ -44,11 +44,11 @@
             grid-template-columns: 1fr 1fr 1fr;
             gap: 12px;
             flex-grow: 1;
-            height: 100%; /* ให้เต็มพื้นที่ */
+            height: 100%;
         }
 
         .phase-card {
-            border: 2px solid #1f2937; /* เข้มขึ้นเล็กน้อย */
+            border: 2px solid #1f2937;
             border-radius: 8px;
             padding: 10px;
             display: flex;
@@ -110,25 +110,38 @@
             border-bottom: none;
         }
 
-        .exercise-img {
+        /* Image Upload Styles */
+        .img-container {
+            position: relative;
             width: 40px;
             height: 40px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .exercise-img {
+            width: 100%;
+            height: 100%;
             background-color: #f9fafb;
             object-fit: cover;
             border: 1px solid #e5e7eb;
             border-radius: 4px;
-            flex-shrink: 0;
         }
 
-        /* เพิ่ม style สำหรับลิงก์รูปภาพ */
-        a.img-link {
-            display: block;
-            cursor: pointer;
+        .img-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
             transition: opacity 0.2s;
+            border-radius: 4px;
         }
-        a.img-link:hover {
-            opacity: 0.8;
-            border-color: #000;
+
+        .img-container:hover .img-overlay {
+            opacity: 1;
         }
 
         .exercise-details h4 {
@@ -139,8 +152,6 @@
             color: #111;
         }
         
-        /* Removed p tag style for descriptions as requested */
-
         /* Print Settings */
         @media print {
             body { 
@@ -158,12 +169,15 @@
                 page-break-after: always;
             }
             .no-print { display: none !important; }
-            /* Force background graphics */
+            .img-overlay { display: none !important; } /* ซ่อน overlay เวลาพิมพ์ */
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Hidden File Input -->
+    <input type="file" id="fileInput" accept="image/*" style="display: none;">
 
     <!-- Controls -->
     <div class="fixed top-4 right-4 flex gap-2 no-print z-50">
@@ -217,25 +231,28 @@
                     <div class="muscle-section">
                         <div class="muscle-header">UPPER BODY</div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Push+Up" class="exercise-img" alt="Push Up">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ท่าดันพื้น (Push-ups)</h4>
                             </div>
                         </div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Pike" class="exercise-img" alt="Pike Push Up">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ท่าดันพื้นยกสะโพก (Pike Push-up)</h4>
                             </div>
                         </div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Back" class="exercise-img" alt="YWT">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ท่านอนคว่ำยกแขน (Y-W-T)</h4>
                             </div>
@@ -245,9 +262,10 @@
                     <div class="muscle-section">
                         <div class="muscle-header">CORE</div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Plank" class="exercise-img" alt="Plank">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ท่าแพลงก์ (Plank)</h4>
                             </div>
@@ -257,9 +275,10 @@
                     <div class="muscle-section">
                         <div class="muscle-header">LOWER BODY</div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Squat" class="exercise-img" alt="Squat">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ท่าลุกนั่ง (Squat)</h4>
                             </div>
@@ -298,25 +317,28 @@
                     <div class="muscle-section">
                         <div class="muscle-header">UPPER BODY</div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Diamond" class="exercise-img" alt="Diamond PU">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ดันพื้นมือชิด (Diamond)</h4>
                             </div>
                         </div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Decline" class="exercise-img" alt="Decline PU">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ดันพื้นวางเท้าสูง (Decline)</h4>
                             </div>
                         </div>
                          <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Rows" class="exercise-img" alt="Door Rows">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ดึงข้อ / ดึงขอบประตู (Rows)</h4>
                             </div>
@@ -326,9 +348,10 @@
                     <div class="muscle-section">
                         <div class="muscle-header">CORE</div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Leg+R" class="exercise-img" alt="Leg Raise">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>นอนยกขา (Leg Raises)</h4>
                             </div>
@@ -338,9 +361,10 @@
                     <div class="muscle-section">
                         <div class="muscle-header">LOWER BODY</div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Split" class="exercise-img" alt="Split Squat">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ย่อเข่าขาเดียว (Split Squat)</h4>
                             </div>
@@ -379,17 +403,19 @@
                     <div class="muscle-section">
                         <div class="muscle-header">UPPER BODY</div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Explosive" class="exercise-img" alt="Clap PU">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ดันพื้นตบมือ (Explosive Push-up)</h4>
                             </div>
                         </div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Dips" class="exercise-img" alt="Dips">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ดันหลังแขน (Chair Dips)</h4>
                             </div>
@@ -399,17 +425,19 @@
                     <div class="muscle-section">
                         <div class="muscle-header">CORE</div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=V-Up" class="exercise-img" alt="V-Up">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>พับตัว (V-Ups)</h4>
                             </div>
                         </div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Twist" class="exercise-img" alt="Twist">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>บิดตัว (Russian Twist)</h4>
                             </div>
@@ -419,9 +447,10 @@
                     <div class="muscle-section">
                         <div class="muscle-header">LOWER BODY</div>
                         <div class="exercise-row">
-                            <a href="#" target="_blank" class="img-link" title="คลิกเพื่อดูท่าฝึก">
+                            <div class="img-container" onclick="triggerUpload(this)">
                                 <img src="https://placehold.co/100x100/f3f4f6/333333?text=Jump" class="exercise-img" alt="Jump Sq">
-                            </a>
+                                <div class="img-overlay"><i data-lucide="camera" class="w-4 h-4 text-white"></i></div>
+                            </div>
                             <div class="exercise-details">
                                 <h4>ลุกนั่งกระโดด (Jump Squats)</h4>
                             </div>
@@ -441,6 +470,29 @@
 
     <script>
         lucide.createIcons();
+
+        // Image Upload Logic
+        let currentImgElement = null;
+        const fileInput = document.getElementById('fileInput');
+
+        function triggerUpload(container) {
+            currentImgElement = container.querySelector('img');
+            fileInput.click();
+        }
+
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (currentImgElement) {
+                        currentImgElement.src = e.target.result;
+                    }
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            }
+            // Reset input so selecting same file works again
+            fileInput.value = '';
+        });
     </script>
 </body>
 </html>
